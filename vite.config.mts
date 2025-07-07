@@ -41,7 +41,7 @@ export default defineConfig(({ mode }) => {
       ),
     },
     server: {
-      open: true,
+      open: false,
     },
     optimizeDeps: {
       entries: [],

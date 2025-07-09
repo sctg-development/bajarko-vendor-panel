@@ -16,12 +16,36 @@ export default defineConfig(({ mode }) => {
   const DISABLE_SELLERS_REGISTRATION =
     env.VITE_DISABLE_SELLERS_REGISTRATION || "false"
 
+  if (PUBLISHABLE_API_KEY === "") {
+    console.error(
+      "VITE_PUBLISHABLE_API_KEY is not set. Please set it in your .env file to avoid issues with the Medusa Admin UI."
+    )
+    throw new Error(
+      "VITE_PUBLISHABLE_API_KEY is not set. Please set it in your .env file to avoid issues with the Medusa Admin UI."
+    )
+  }
+  if (PUBLISHABLE_API_KEY.startsWith("$")) {
+    console.error(
+      "VITE_PUBLISHABLE_API_KEY is not expanded. Please set it in your .env file to avoid issues with the Medusa Admin UI."
+    )
+    throw new Error(
+      "VITE_PUBLISHABLE_API_KEY is not expanded. Please set it in your .env file to avoid issues with the Medusa Admin UI."
+    )
+  }
   /**
    * Add this to your .env file to specify the project to load admin extensions from.
    */
   const MEDUSA_PROJECT = env.VITE_MEDUSA_PROJECT || null
   const sources = MEDUSA_PROJECT ? [MEDUSA_PROJECT] : []
 
+  console.log(`Starting Vendor panel UI with the following environment variables:
+  BASE: ${BASE}
+  BACKEND_URL: ${BACKEND_URL}
+  STOREFRONT_URL: ${STOREFRONT_URL}
+  PUBLISHABLE_API_KEY: ${PUBLISHABLE_API_KEY}
+  TALK_JS_APP_ID: ${TALK_JS_APP_ID}
+  DISABLE_SELLERS_REGISTRATION: ${DISABLE_SELLERS_REGISTRATION}
+  MEDUSA_PROJECT: ${MEDUSA_PROJECT}`);
   return {
     plugins: [
       inspect(),
